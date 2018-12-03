@@ -17,7 +17,8 @@ public:
     // imprime busca em largura
     void BFS(int s);
     void printGrafo();
-    void printIteracao(bool *visitado, list<int>queue, int iteracao);
+    void printVisitados(bool *visitado);
+    void printQueue(list<int>queue);
 };
 
 Grafo::Grafo(int V)
@@ -44,21 +45,24 @@ void Grafo::printGrafo(){
     }
 }
 //
-// void Grafo::printIteracao(bool *visitado, list<int>queue, int iteracao){
-//     cout << "Iteracao "<< iteracao << endl;
-//     cout << "Visitados: ";
-//     for(int i=0; i<V; i++){
-//       if(visitado[i] == true)
-//           cout << " " << i;
-//     }
-//     cout<<endl;
-//     list<int>::iterator j;
-//     cout<< "Queue: ";
-//     for(j = queue.begin(); j!=queue.end(); j++){
-//         cout << "  " << *j;
-//     }
-// }
+void Grafo::printVisitados(bool *visitado){
+    cout << "\nVisitados: ";
+    for(int i=0; i<V; i++){
+      if(visitado[i] == true)
+          cout << " " << i;
+    }
+    cout<<endl;
+}
 
+void Grafo::printQueue(list<int>queue){
+  list<int>::iterator j;
+  cout << "---------\n";
+  cout<< "Queue: ";
+  for(j = queue.begin(); j!=queue.end(); j++){
+      cout << " " << *j;
+  }
+  cout<<endl;
+}
 void Grafo::BFS(int s)
 {
     // Marca todos os vértices como não visitados
@@ -78,17 +82,17 @@ void Grafo::BFS(int s)
     while(!queue.empty())
     {
         // Remove o vértice da queue
-        // int iteracao = 1;
+        int iteracao = 1;
         s = queue.front();
         cout << s << " ";
+        // printQueue(queue);
         queue.pop_front();
 
         // PEga todos os vértices adjacentes de S, caso o vértice não
         // tenha sido visitado marca como visitado e coloca na fila
         for (i = adj[s].begin(); i != adj[s].end(); ++i)
         {
-            // printIteracao(visitado, queue, iteracao);
-            // iteracao++;
+            // printVisitados(visitado);
             if (!visitado[*i])
             {
                 visitado[*i] = true;
@@ -101,15 +105,13 @@ void Grafo::BFS(int s)
 int main()
 {
     int num;
-    Grafo g(6);
+    Grafo g(4);
     g.addVertice(0, 1);
     g.addVertice(0, 2);
-    g.addVertice(1, 4);
-    g.addVertice(1, 3);
-    g.addVertice(2, 4);
-    g.addVertice(3, 4);
-    g.addVertice(4, 5);
-    g.addVertice(3, 5);
+    g.addVertice(1, 2);
+    g.addVertice(2, 0);
+    g.addVertice(2, 3);
+    g.addVertice(3, 3);
 
     g.printGrafo();
     cout << "Insira algum vértice a partir do qual será realizada a travessia: ";
